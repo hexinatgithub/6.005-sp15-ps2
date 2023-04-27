@@ -29,17 +29,131 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
      */
     
     // Testing strategy for ConcreteEdgesGraph.toString()
-    //   TODO
+    //   partition on graph:
+    //		empty graph
+    //	 	one vertex has self loop
+    //		one vertex has no self loop
+    //    	more than one vertex, all one vertex has edge
+    //		more than one vertex, one vertex has no edge
+    //		more than one vertex, more than one vertex has no edge
     
-    // TODO tests for ConcreteEdgesGraph.toString()
+    @Test
+    public void testToStringEmptyGraph() {
+    	Graph<String> graph = emptyInstance();
+    	assertEquals("expected empty graph", "\n", graph.toString());
+    }
+    
+    @Test
+    public void testToStringSelfLoop() {
+    	Graph<String> graph = emptyInstance();
+    	graph.set("1", "1", 1);
+    	assertEquals("expected empty graph", "\"1\" ---> \"1\" 1\n", graph.toString());
+    }
+    
+    @Test
+    public void testToStringAllConnected() {
+    	Graph<String> graph = emptyInstance();
+    	graph.set("1", "1", 1);
+    	graph.set("2", "3", 1);
+    	String expected = "\"1\" ---> \"1\" 1\n" + 
+    			"\"2\" ---> \"3\" 1\n";
+    	assertEquals("expected empty graph", expected, graph.toString());
+    }
+    
+    @Test
+    public void testToStringIsolate() {
+    	Graph<String> graph = emptyInstance();
+    	graph.set("1", "1", 1);
+    	graph.set("2", "3", 1);
+    	graph.add("4");
+    	String expected = "\"1\" ---> \"1\" 1\n" + 
+    			"\"2\" ---> \"3\" 1\n" + 
+    			"\"4\"\n";
+    	assertEquals("expected empty graph", expected, graph.toString());
+    }
+    
+    @Test
+    public void testToStringMoreIsolate() {
+    	Graph<String> graph = emptyInstance();
+    	graph.set("1", "1", 1);
+    	graph.set("2", "3", 1);
+    	graph.add("4");
+    	graph.add("5");
+    	graph.add("6");
+    	String expected = "\"1\" ---> \"1\" 1\n" + 
+    			"\"2\" ---> \"3\" 1\n" + 
+    			"\"4\"\n" +
+    			"\"5\"\n" + 
+    			"\"6\"\n";
+    	assertEquals("expected empty graph", expected, graph.toString());
+    }
     
     /*
      * Testing Edge...
      */
     
     // Testing strategy for Edge
-    //   TODO
+    // Edge(), setWeight():
+    //   partition on source and target:
+    //		source and target different
+    //		source and target equal
+        
+    /**
+     * cover source and target different
+     */
+    @Test
+    public void testEdge() {
+    	Edge edge = new Edge("1", "2", 10);
+    	assertEquals("expect source", "1", edge.getSource());
+    	assertEquals("expect target", "2", edge.getTarget());
+    	assertEquals("expect weight", 10, edge.getWeight());
+    	assertTrue("expect connected", edge.connected("1", "2"));
+    }
     
-    // TODO tests for operations of Edge
+    /**
+     * cover source and target equal
+     */
+    @Test
+    public void testEdgeSelfLoop() {
+    	Edge edge = new Edge("1", "1", 10);
+    	assertEquals("expect source", "1", edge.getSource());
+    	assertEquals("expect target", "1", edge.getTarget());
+    	assertEquals("expect weight", 10, edge.getWeight());
+    	assertTrue("expect connected", edge.connected("1", "1"));
+    }
     
+    /**
+     * cover source and target different
+     * 	weight 0
+     */
+    @Test
+    public void testSetWeight() {
+    	Edge edge = new Edge("1", "2", 10);
+    	assertEquals("expect source", "1", edge.getSource());
+    	assertEquals("expect target", "2", edge.getTarget());
+    	assertEquals("expect weight", 10, edge.getWeight());
+    	assertTrue("expect connected", edge.connected("1", "2"));
+    	edge = edge.setWeight(1);
+    	assertEquals("expect source", "1", edge.getSource());
+    	assertEquals("expect target", "2", edge.getTarget());
+    	assertEquals("expect weight", 1, edge.getWeight());
+    	assertTrue("expect connected", edge.connected("1", "2"));
+    }
+    
+    /**
+     * cover source and target different
+     */
+    @Test
+    public void testSetWeightSelfLoop() {
+    	Edge edge = new Edge("1", "1", 10);
+    	assertEquals("expect source", "1", edge.getSource());
+    	assertEquals("expect target", "1", edge.getTarget());
+    	assertEquals("expect weight", 10, edge.getWeight());
+    	assertTrue("expect connected", edge.connected("1", "1"));
+    	edge = edge.setWeight(1);
+    	assertEquals("expect source", "1", edge.getSource());
+    	assertEquals("expect target", "1", edge.getTarget());
+    	assertEquals("expect weight", 1, edge.getWeight());
+    	assertTrue("expect connected", edge.connected("1", "1"));
+    }
 }
