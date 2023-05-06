@@ -21,7 +21,7 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
      * Provide a ConcreteEdgesGraph for tests in GraphInstanceTest.
      */
     @Override public Graph<String> emptyInstance() {
-        return new ConcreteEdgesGraph();
+        return new ConcreteEdgesGraph<String>();
     }
     
     /*
@@ -103,7 +103,7 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testEdge() {
-    	Edge edge = new Edge("1", "2", 10);
+    	Edge<String> edge = new Edge<>("1", "2", 10);
     	assertEquals("expect source", "1", edge.getSource());
     	assertEquals("expect target", "2", edge.getTarget());
     	assertEquals("expect weight", 10, edge.getWeight());
@@ -115,7 +115,7 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testEdgeSelfLoop() {
-    	Edge edge = new Edge("1", "1", 10);
+    	Edge<String> edge = new Edge<>("1", "1", 10);
     	assertEquals("expect source", "1", edge.getSource());
     	assertEquals("expect target", "1", edge.getTarget());
     	assertEquals("expect weight", 10, edge.getWeight());
@@ -128,7 +128,7 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testSetWeight() {
-    	Edge edge = new Edge("1", "2", 10);
+    	Edge<String> edge = new Edge<>("1", "2", 10);
     	assertEquals("expect source", "1", edge.getSource());
     	assertEquals("expect target", "2", edge.getTarget());
     	assertEquals("expect weight", 10, edge.getWeight());
@@ -145,7 +145,7 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testSetWeightSelfLoop() {
-    	Edge edge = new Edge("1", "1", 10);
+    	Edge<String> edge = new Edge<>("1", "1", 10);
     	assertEquals("expect source", "1", edge.getSource());
     	assertEquals("expect target", "1", edge.getTarget());
     	assertEquals("expect weight", 10, edge.getWeight());

@@ -15,9 +15,9 @@ import java.util.Set;
  * 
  * <p>PS2 instructions: you MUST use the provided rep.
  */
-public class ConcreteVerticesGraph implements Graph<String> {
+public class ConcreteVerticesGraph<L> implements Graph<L> {
     
-    private final List<Vertex> vertices = new ArrayList<>();
+    private final List<Vertex<L>> vertices = new ArrayList<>();
     
     // Abstraction function:
     //   Represent a graph with vertices
@@ -32,32 +32,32 @@ public class ConcreteVerticesGraph implements Graph<String> {
     
     // TODO checkRep
     
-    @Override public boolean add(String vertex) {
+    @Override public boolean add(L vertex) {
         if (find(vertex) != null) {
 			return false;
         }
-        vertices.add(new Vertex(vertex));
+        vertices.add(new Vertex<L>(vertex));
         return true;
     }
     
-    @Override public int set(String source, String target, int weight) {
+    @Override public int set(L source, L target, int weight) {
     	return findOrCreate(source).to(findOrCreate(target), weight);
     }
     
-    @Override public boolean remove(String vertex) {
+    @Override public boolean remove(L vertex) {
         int i = index(vertex);
         if (i == -1) {
         	return false;
         }
         
-        Vertex v = vertices.get(i);
-        for (String source : v.sources().keySet()) {
-        	Vertex sv = find(source);
+        Vertex<L> v = vertices.get(i);
+        for (L source : v.sources().keySet()) {
+        	Vertex<L> sv = find(source);
         	assert sv != null;
         	sv.to(v, 0);
         }
-        for (String target : v.targets().keySet()) {
-        	Vertex tv = find(target);
+        for (L target : v.targets().keySet()) {
+        	Vertex<L> tv = find(target);
         	assert tv != null;
         	v.to(tv, 0);
         }
@@ -65,46 +65,46 @@ public class ConcreteVerticesGraph implements Graph<String> {
         return true;
     }
     
-    @Override public Set<String> vertices() {
+    @Override public Set<L> vertices() {
         return new HashSet<>(vertices.stream().map(v -> v.identity()).toList());
     }
     
-    @Override public Map<String, Integer> sources(String target) {
-        Vertex vertex = find(target);
+    @Override public Map<L, Integer> sources(L target) {
+        Vertex<L> vertex = find(target);
         return vertex == null ? new HashMap<>() : vertex.sources();
     }
     
-    @Override public Map<String, Integer> targets(String source) {
-        Vertex vertex = find(source);
+    @Override public Map<L, Integer> targets(L source) {
+        Vertex<L> vertex = find(source);
         return vertex == null ? new HashMap<>() : vertex.targets();
     }
     
-    private int index(String vertex) {
+    private int index(L vertex) {
         for (int i = 0; i < vertices.size(); i++)
 			if (vertices.get(i).identity().equals(vertex))
 				return i;
         return -1;
     }
     
-    private Vertex find(String vertex) {
+    private Vertex<L> find(L vertex) {
         for (int i = 0; i < vertices.size(); i++)
 			if (vertices.get(i).identity().equals(vertex))
 				return vertices.get(i);
         return null;
     }
     
-    private Vertex findOrCreate(String vertex) {
-    	Vertex nv = find(vertex);
+    private Vertex<L> findOrCreate(L vertex) {
+    	Vertex<L> nv = find(vertex);
     	if (nv != null) {
     		return nv;
     	}
-        nv = new Vertex(vertex);
+        nv = new Vertex<L>(vertex);
     	vertices.add(nv);
         return nv;
     }
     
     /**
-     * Returns a string represent the Graph.
+     * Returns a L represent the Graph.
      * Graph will be represent in the follow format, 
      * vertex will appear in insert order:
      * 
@@ -119,11 +119,11 @@ public class ConcreteVerticesGraph implements Graph<String> {
      */
     @Override public String toString() {
     	String result = "";
-    	for (Vertex vertex : vertices) {
+    	for (Vertex<L> vertex : vertices) {
     		if (vertex.sources().size() == 0 && vertex.targets().size() == 0) {
     			result += vertex + "\n";
     		} else {
-    			for (Map.Entry<String, Integer> entry : vertex.targets().entrySet()) {
+    			for (Map.Entry<L, Integer> entry : vertex.targets().entrySet()) {
     				result += "\"%s\" ---> \"%s\" %d\n".formatted(
     						vertex.identity(), entry.getKey(), entry.getValue());
     			}
@@ -141,11 +141,11 @@ public class ConcreteVerticesGraph implements Graph<String> {
  * <p>PS2 instructions: the specification and implementation of this class is
  * up to you.
  */
-class Vertex {
+class Vertex<L> {
     
-	private final String id;
-	private final Map<String, Integer> targets = new HashMap<>();
-	private final Map<String, Integer> sources = new HashMap<>();
+	private final L id;
+	private final Map<L, Integer> targets = new HashMap<>();
+	private final Map<L, Integer> sources = new HashMap<>();
     
     // Abstraction function:
     //   A vertex with source vertex point to it and from that vertex to the targets
@@ -156,13 +156,13 @@ class Vertex {
 	//	 targets, sources map field are immutable
 	//	 targets(), sources() make a defensive copy
     
-	public Vertex(String id) {
+	public Vertex(L id) {
 		this.id = id;
 	}
     
     // TODO checkRep
     
-	public String identity() {
+	public L identity() {
 		return id;
 	}
 	
@@ -174,7 +174,7 @@ class Vertex {
 	 * @param edge weight
 	 * @return 0 if edge not exist else return previous weight
 	 */
-	public int to(Vertex target, int weight) {
+	public int to(Vertex<L> target, int weight) {
 		Integer result = null;
 		if (weight == 0) {
 			result = this.targets.remove(target.id);
@@ -191,7 +191,7 @@ class Vertex {
 	 * @param target vertex
 	 * @return true if edge exist else return false
 	 */
-	public boolean connected(Vertex target) {
+	public boolean connected(Vertex<L> target) {
 		return targets.containsKey(target.id);
 	}
 	
@@ -204,7 +204,7 @@ class Vertex {
      *         the value for each key is the (nonzero) weight of the edge from
      *         source to the key
 	 */
-	public Map<String, Integer> targets() {
+	public Map<L, Integer> targets() {
 		return new HashMap<>(targets);
 	}
 	
@@ -217,12 +217,12 @@ class Vertex {
      *         the value for each key is the (nonzero) weight of the edge from
      *         the key to target
      */
-    public Map<String, Integer> sources() {
+    public Map<L, Integer> sources() {
     	return new HashMap<>(sources);
     }
     
     /**
-     * Returns a string represent the Graph.
+     * Returns a L represent the Graph.
      * Graph will be represent in the follow format, 
      * edge will present first, then vertex:
      * 
@@ -237,6 +237,6 @@ class Vertex {
      */
     @Override
     public String toString() {
-    	return id;
+    	return id.toString();
     }
 }

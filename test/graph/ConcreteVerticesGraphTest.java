@@ -21,7 +21,7 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      * Provide a ConcreteVerticesGraph for tests in GraphInstanceTest.
      */
     @Override public Graph<String> emptyInstance() {
-        return new ConcreteVerticesGraph();
+        return new ConcreteVerticesGraph<String>();
     }
     
     /*
@@ -132,7 +132,7 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testToSelfLoop() {
-    	Vertex vertex = new Vertex("1");
+    	Vertex<String> vertex = new Vertex<>("1");
     	assertEquals("expected not exist", 0, vertex.to(vertex, 1));
     	assertTrue("expected connected", vertex.connected(vertex));
     	assertEquals("expected targets", Map.of("1", 1), vertex.targets());
@@ -147,9 +147,9 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testToUpdateWeight() {
-    	Vertex vertex1 = new Vertex("1");
-    	Vertex vertex2 = new Vertex("2");
-    	Vertex vertex3 = new Vertex("3");
+    	Vertex<String> vertex1 = new Vertex<>("1");
+    	Vertex<String> vertex2 = new Vertex<>("2");
+    	Vertex<String> vertex3 = new Vertex<>("3");
     	assertEquals("expected edge not exist", 0, vertex1.to(vertex3, 1));
     	assertEquals("expected edge not exist", 0, vertex2.to(vertex1, 1));
     	
@@ -172,12 +172,12 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testToNoEffect() {
-    	Vertex vertex1 = new Vertex("1");
-    	Vertex vertex2 = new Vertex("2");
-    	Vertex vertex3 = new Vertex("3");
-    	Vertex vertex4 = new Vertex("4");
-    	Vertex vertex5 = new Vertex("5");
-    	Vertex vertex6 = new Vertex("6");
+    	Vertex<String> vertex1 = new Vertex<>("1");
+    	Vertex<String> vertex2 = new Vertex<>("2");
+    	Vertex<String> vertex3 = new Vertex<>("3");
+    	Vertex<String> vertex4 = new Vertex<>("4");
+    	Vertex<String> vertex5 = new Vertex<>("5");
+    	Vertex<String> vertex6 = new Vertex<>("6");
 
     	assertEquals("expected edge not exist", 0, vertex1.to(vertex3, 1));
     	assertEquals("expected edge not exist", 0, vertex2.to(vertex3, 2));
@@ -201,8 +201,8 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testToRemoveEdge() {
-    	Vertex vertex1 = new Vertex("1");
-    	Vertex vertex2 = new Vertex("2");
+    	Vertex<String> vertex1 = new Vertex<>("1");
+    	Vertex<String> vertex2 = new Vertex<>("2");
     	assertEquals("expected edge not exist", 0, vertex1.to(vertex2, 1));
     	
     	assertEquals("expected targets number", 0, vertex1.sources().size());
@@ -222,8 +222,8 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testConnect() {
-    	Vertex vertex1 = new Vertex("1");
-    	Vertex vertex2 = new Vertex("2");
+    	Vertex<String> vertex1 = new Vertex<>("1");
+    	Vertex<String> vertex2 = new Vertex<>("2");
     	assertFalse("expected not connected", vertex1.connected(vertex2));
     	assertFalse("expected not connected", vertex2.connected(vertex1));
     }
@@ -235,10 +235,10 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testConnectNotInOneTarget() {
-    	Vertex vertex1 = new Vertex("1");
-    	Vertex vertex2 = new Vertex("2");
-    	Vertex vertex3 = new Vertex("3");
-    	Vertex vertex4 = new Vertex("4");
+    	Vertex<String> vertex1 = new Vertex<>("1");
+    	Vertex<String> vertex2 = new Vertex<>("2");
+    	Vertex<String> vertex3 = new Vertex<>("3");
+    	Vertex<String> vertex4 = new Vertex<>("4");
     	assertEquals("expected edge not exist", 0, vertex1.to(vertex2, 1));
     	assertEquals("expected edge not exist", 0, vertex2.to(vertex3, 1));
     	assertFalse("expected not connected", vertex2.connected(vertex4));
@@ -251,12 +251,12 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testConnectNotInMultiTargets() {
-    	Vertex vertex1 = new Vertex("1");
-    	Vertex vertex2 = new Vertex("2");
-    	Vertex vertex3 = new Vertex("3");
-    	Vertex vertex4 = new Vertex("4");
-    	Vertex vertex5 = new Vertex("5");
-    	Vertex vertex6 = new Vertex("6");
+    	Vertex<String> vertex1 = new Vertex<>("1");
+    	Vertex<String> vertex2 = new Vertex<>("2");
+    	Vertex<String> vertex3 = new Vertex<>("3");
+    	Vertex<String> vertex4 = new Vertex<>("4");
+    	Vertex<String> vertex5 = new Vertex<>("5");
+    	Vertex<String> vertex6 = new Vertex<>("6");
     	assertEquals("expected edge not exist", 0, vertex1.to(vertex3, 1));
     	assertEquals("expected edge not exist", 0, vertex2.to(vertex3, 1));
     	assertEquals("expected edge not exist", 0, vertex3.to(vertex4, 1));
@@ -271,9 +271,9 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testConnectIn() {
-    	Vertex vertex1 = new Vertex("1");
-    	Vertex vertex2 = new Vertex("2");
-    	Vertex vertex3 = new Vertex("3");
+    	Vertex<String> vertex1 = new Vertex<>("1");
+    	Vertex<String> vertex2 = new Vertex<>("2");
+    	Vertex<String> vertex3 = new Vertex<>("3");
     	assertEquals("expected edge not exist", 0, vertex1.to(vertex2, 1));
     	assertEquals("expected edge not exist", 0, vertex1.to(vertex3, 1));
     	assertTrue("expected connected", vertex1.connected(vertex3));
@@ -285,7 +285,7 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testTargets() {
-    	Vertex vertex1 = new Vertex("1");
+    	Vertex<String> vertex1 = new Vertex<>("1");
     	assertEquals("expected targets number", 0, vertex1.targets().size());
     }
     
@@ -295,8 +295,8 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testTargetsOne() {
-    	Vertex vertex1 = new Vertex("1");
-    	Vertex vertex2 = new Vertex("2");
+    	Vertex<String> vertex1 = new Vertex<>("1");
+    	Vertex<String> vertex2 = new Vertex<>("2");
     	assertEquals("expected edge not exist", 0, vertex1.to(vertex2, 1));
     	assertEquals("expected edge not exist", 0, vertex2.to(vertex1, 1));
     	assertEquals("expected targets", Map.of("2", 1), vertex1.targets());
@@ -309,11 +309,11 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testTargetsMultiple() {
-    	Vertex vertex1 = new Vertex("1");
-    	Vertex vertex2 = new Vertex("2");
-    	Vertex vertex3 = new Vertex("3");
-    	Vertex vertex4 = new Vertex("4");
-    	Vertex vertex5 = new Vertex("5");
+    	Vertex<String> vertex1 = new Vertex<>("1");
+    	Vertex<String> vertex2 = new Vertex<>("2");
+    	Vertex<String> vertex3 = new Vertex<>("3");
+    	Vertex<String> vertex4 = new Vertex<>("4");
+    	Vertex<String> vertex5 = new Vertex<>("5");
     	assertEquals("expected edge not exist", 0, vertex1.to(vertex3, 1));
     	assertEquals("expected edge not exist", 0, vertex2.to(vertex3, 1));
     	assertEquals("expected edge not exist", 0, vertex3.to(vertex4, 1));
@@ -329,7 +329,7 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testSources() {
-    	Vertex vertex1 = new Vertex("1");
+    	Vertex<String> vertex1 = new Vertex<>("1");
     	assertEquals("expected targets number", 0, vertex1.sources().size());
     }
     
@@ -339,8 +339,8 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testSourcesOne() {
-    	Vertex vertex1 = new Vertex("1");
-    	Vertex vertex2 = new Vertex("2");
+    	Vertex<String> vertex1 = new Vertex<>("1");
+    	Vertex<String> vertex2 = new Vertex<>("2");
     	assertEquals("expected edge not exist", 0, vertex1.to(vertex2, 11));
     	assertEquals("expected edge not exist", 0, vertex2.to(vertex1, 22));
     	assertEquals("expected targets", Map.of("2", 22), vertex1.sources());
@@ -353,11 +353,11 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testSourcesMultiple() {
-    	Vertex vertex1 = new Vertex("1");
-    	Vertex vertex2 = new Vertex("2");
-    	Vertex vertex3 = new Vertex("3");
-    	Vertex vertex4 = new Vertex("4");
-    	Vertex vertex5 = new Vertex("5");
+    	Vertex<String> vertex1 = new Vertex<>("1");
+    	Vertex<String> vertex2 = new Vertex<>("2");
+    	Vertex<String> vertex3 = new Vertex<>("3");
+    	Vertex<String> vertex4 = new Vertex<>("4");
+    	Vertex<String> vertex5 = new Vertex<>("5");
     	assertEquals("expected edge not exist", 0, vertex1.to(vertex3, 11));
     	assertEquals("expected edge not exist", 0, vertex2.to(vertex3, 22));
     	assertEquals("expected edge not exist", 0, vertex3.to(vertex4, 44));
@@ -373,7 +373,7 @@ public class ConcreteVerticesGraphTest extends GraphInstanceTest {
      */
     @Test
     public void testToString() {
-    	Vertex vertex = new Vertex("1");
+    	Vertex<String> vertex = new Vertex<>("1");
     	assertEquals("expected blank line", "1", vertex.toString());
     }
 }
