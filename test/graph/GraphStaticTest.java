@@ -6,6 +6,8 @@ package graph;
 import static org.junit.Assert.*;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -34,5 +36,23 @@ public class GraphStaticTest {
     }
     
     // TODO test other vertex label types in Problem 3.2
+    @Test
+    public void testEmptyIntegerLabel() {
+    	Graph<Integer> graph = Graph.<Integer>empty();
+        assertEquals("expected empty() graph to have no vertices",
+                Collections.emptySet(), graph.vertices());
+        graph.set(1, 2, 1);
+        assertEquals("expected empty() graph to have no vertices",
+        		Set.of(1, 2), graph.vertices());
+    }
     
+    @Test
+    public void testEmptyDoubleLabel() {
+    	Graph<Double> graph = Graph.empty();
+        assertEquals("expected empty() graph to have no vertices",
+                Collections.emptySet(), graph.vertices());
+        graph.set(1.0, 2.0, 1);
+        assertEquals("expected empty() graph to have no vertices",
+                Set.of(1.0, 2.0), graph.vertices());
+    }
 }
