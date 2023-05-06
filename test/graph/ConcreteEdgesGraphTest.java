@@ -93,7 +93,7 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
      */
     
     // Testing strategy for Edge
-    // Edge(), setWeight():
+    // Edge():
     //   partition on source and target:
     //		source and target different
     //		source and target equal
@@ -119,41 +119,6 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
     	assertEquals("expect source", "1", edge.getSource());
     	assertEquals("expect target", "1", edge.getTarget());
     	assertEquals("expect weight", 10, edge.getWeight());
-    	assertTrue("expect connected", edge.connected("1", "1"));
-    }
-    
-    /**
-     * cover source and target different
-     * 	weight 0
-     */
-    @Test
-    public void testSetWeight() {
-    	Edge<String> edge = new Edge<>("1", "2", 10);
-    	assertEquals("expect source", "1", edge.getSource());
-    	assertEquals("expect target", "2", edge.getTarget());
-    	assertEquals("expect weight", 10, edge.getWeight());
-    	assertTrue("expect connected", edge.connected("1", "2"));
-    	edge = edge.setWeight(1);
-    	assertEquals("expect source", "1", edge.getSource());
-    	assertEquals("expect target", "2", edge.getTarget());
-    	assertEquals("expect weight", 1, edge.getWeight());
-    	assertTrue("expect connected", edge.connected("1", "2"));
-    }
-    
-    /**
-     * cover source and target different
-     */
-    @Test
-    public void testSetWeightSelfLoop() {
-    	Edge<String> edge = new Edge<>("1", "1", 10);
-    	assertEquals("expect source", "1", edge.getSource());
-    	assertEquals("expect target", "1", edge.getTarget());
-    	assertEquals("expect weight", 10, edge.getWeight());
-    	assertTrue("expect connected", edge.connected("1", "1"));
-    	edge = edge.setWeight(1);
-    	assertEquals("expect source", "1", edge.getSource());
-    	assertEquals("expect target", "1", edge.getTarget());
-    	assertEquals("expect weight", 1, edge.getWeight());
     	assertTrue("expect connected", edge.connected("1", "1"));
     }
 }

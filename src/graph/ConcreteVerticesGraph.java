@@ -222,7 +222,7 @@ class Vertex<L> {
     }
     
     /**
-     * Returns a L represent the Graph.
+     * @return a String represent the Graph.
      * Graph will be represent in the follow format, 
      * edge will present first, then vertex:
      * 

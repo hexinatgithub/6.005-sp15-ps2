@@ -60,7 +60,7 @@ public class ConcreteEdgesGraph<L> implements Graph<L> {
 				if (weight == 0) {
 					edges.remove(i);
 				} else {
-					edges.set(i, edge.setWeight(weight));
+					edges.set(i, new Edge<>(source, target, weight));
 				}
 				
 				break;
@@ -128,7 +128,7 @@ public class ConcreteEdgesGraph<L> implements Graph<L> {
     }
     
     /**
-     * Returns a L represent the Graph.
+     * @return a String represent the Graph.
      * Graph will be represent in the follow format, 
      * edge will present first, then vertex:
      * 
@@ -183,6 +183,12 @@ class Edge<L> {
     //   all fields are private, final and immutable
 	//	 setWeight return a new Edge
     
+	/**
+	 * Create a Edge from source to target with weight
+	 * @param source vertex edge goes from
+	 * @param target vertex edge goes to
+	 * @param weight Edge weight
+	 */
 	public Edge(L source, L target, int weight) {
 		this.source = source;
 		this.target = target;
@@ -193,28 +199,38 @@ class Edge<L> {
         assert weight > 0;
 	}
     
+	/**
+	 * @return Edge source vertex
+	 */
 	public L getSource() {
         return source;
 	}
 	
+	/**
+	 * @return Edge target vertex
+	 */
 	public L getTarget() {
         return target;
 	}
 	
+	/**
+	 * Check whether source and target vertex are connected
+	 * @param source vertex edge goes from
+	 * @param target vertex edge goes to
+	 * @return true if source and target are connected otherwise return false
+	 */
 	public boolean connected(L source, L target) {
         return this.source.equals(source) && this.target.equals(target);
 	}
 	
+	/**
+	 * @return Edge weight
+	 */
 	public int getWeight() {
         return weight;
 	}
-	
-	public Edge<L> setWeight(int weight) {
-        return new Edge<L>(this.source, this.target, weight);
-	}
     
-	@Override
-    public String toString() {
+	@Override public String toString() {
         return "\"%s\" ---> \"%s\" %d".formatted(
         		source, target, weight);
     }
